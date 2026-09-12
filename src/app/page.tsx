@@ -2,95 +2,822 @@
 
 import { useState } from 'react';
 import {
-  ArrowRight, BarChart3, Check, ChevronRight, Code2, Factory, Globe2,
-  LayoutTemplate, MapPin, Menu, MessageCircle, Package, Search, Settings2,
-  ShieldCheck, ShoppingBag, Sparkles, Target, Users, X, Zap
+  ArrowRight,
+  BarChart3,
+  Check,
+  ChevronRight,
+  Code2,
+  Factory,
+  Globe2,
+  LayoutTemplate,
+  MapPin,
+  Menu,
+  MessageCircle,
+  Package,
+  Search,
+  Settings2,
+  ShieldCheck,
+  ShoppingBag,
+  Sparkles,
+  Target,
+  Users,
+  X,
+  Zap,
 } from 'lucide-react';
 
 const services = [
-  ['Website Development','Fast, conversion-focused websites that make your business look credible and easy to contact.',Globe2],
-  ['Google Business','Profile setup and optimisation to improve local discovery, trust and customer actions.',MapPin],
-  ['WhatsApp Business','Catalogues, quick replies and enquiry flows that reduce friction for customers.',MessageCircle],
-  ['Social Media','Professional content systems that keep your business visible without random posting.',Users],
-  ['Online Catalogue','Product and service showcases with clear calls-to-action for enquiries.',Package],
-  ['Lead Generation','Landing pages and campaigns built around qualified enquiries and measurable actions.',Target],
-  ['Business Software','CRM, billing, inventory and workflow tools designed around your operations.',Code2],
-  ['Maintenance & Support','Reliable updates, fixes and ongoing technical support after launch.',Settings2],
+  [
+    'Website Development',
+    'Fast, conversion-focused websites that make your business look credible and easy to contact.',
+    Globe2,
+  ],
+  [
+    'Google Business',
+    'Profile setup and optimisation to improve local discovery, trust and customer actions.',
+    MapPin,
+  ],
+  [
+    'WhatsApp Business',
+    'Catalogues, quick replies and enquiry flows that reduce friction for customers.',
+    MessageCircle,
+  ],
+  [
+    'Social Media',
+    'Professional content systems that keep your business visible without random posting.',
+    Users,
+  ],
+  [
+    'Online Catalogue',
+    'Product and service showcases with clear calls-to-action for enquiries.',
+    Package,
+  ],
+  [
+    'Lead Generation',
+    'Landing pages and campaigns built around qualified enquiries and measurable actions.',
+    Target,
+  ],
+  [
+    'Business Software',
+    'CRM, billing, inventory and workflow tools designed around your operations.',
+    Code2,
+  ],
+  [
+    'Maintenance & Support',
+    'Reliable updates, fixes and ongoing technical support after launch.',
+    Settings2,
+  ],
 ] as const;
 
 const industries = [
-  ['Furniture',Package,'urbanwood.rakvexa.com'],['Garments & Textile',ShoppingBag,'textile.rakvexa.com'],
-  ['Restaurants',Sparkles,'restaurant.rakvexa.com'],['Manufacturing',Factory,'industrial.rakvexa.com'],
-  ['Clinics',ShieldCheck,'' ],['Salons',Users,'' ],['Gyms',Target,'' ],['Local Services',Settings2,'' ],
+  ['Furniture', Package, 'urbanwood.rakvexa.com'],
+  ['Garments & Textile', ShoppingBag, 'textile.rakvexa.com'],
+  ['Restaurants', Sparkles, 'restaurant.rakvexa.com'],
+  ['Manufacturing', Factory, 'industrial.rakvexa.com'],
+  ['Clinics', ShieldCheck, ''],
+  ['Salons', Users, ''],
+  ['Gyms', Target, ''],
+  ['Local Services', Settings2, ''],
 ] as const;
 
 const projects = [
-  {type:'Furniture',title:'UrbanWood','text':'Visual catalogue designed to turn product browsing into WhatsApp enquiries.','url':'https://urbanwood.rakvexa.com','accent':'project-visual'},
-  {type:'Garments & Textile',title:'B2B Textile Showcase','text':'Catalogue-first experience for bulk buyers, product discovery and RFQ enquiries.','url':'https://textile.rakvexa.com','accent':'project-2'},
-  {type:'Industrial',title:'Industrial Lead System','text':'Product-led website concept focused on quote requests and high-intent leads.','url':'https://industrial.rakvexa.com','accent':'project-3'},
+  {
+    type: 'Furniture',
+    title: 'UrbanWood',
+    text: 'Visual catalogue designed to turn product browsing into WhatsApp enquiries.',
+    url: 'https://urbanwood.rakvexa.com',
+    accent: 'project-visual',
+  },
+  {
+    type: 'Garments & Textile',
+    title: 'B2B Textile Showcase',
+    text: 'Catalogue-first experience for bulk buyers, product discovery and RFQ enquiries.',
+    url: 'https://textile.rakvexa.com',
+    accent: 'project-2',
+  },
+  {
+    type: 'Industrial',
+    title: 'Industrial Lead System',
+    text: 'Product-led website concept focused on quote requests and high-intent leads.',
+    url: 'https://industrial.rakvexa.com',
+    accent: 'project-3',
+  },
 ];
 
 const plans = [
-  {name:'Starter',price:'₹7,999',desc:'A professional online foundation for small businesses.',features:['5-page responsive website','WhatsApp integration','Contact form','Basic on-page SEO','Launch support']},
-  {name:'Business',price:'₹14,999',desc:'A stronger digital presence for businesses ready to grow.',popular:true,features:['8–10 page website','Product/service catalogue','WhatsApp integration','Google Business support','Analytics setup']},
-  {name:'Growth',price:'₹9,999/mo',desc:'Ongoing digital support focused on consistency and enquiries.',features:['Website maintenance','Google Business management','Social media support','Content updates','Monthly report']},
+  {
+    name: 'Starter',
+    price: '₹7,999',
+    desc: 'A professional online foundation for small businesses.',
+    features: [
+      '5-page responsive website',
+      'WhatsApp integration',
+      'Contact form',
+      'Basic on-page SEO',
+      'Launch support',
+    ],
+  },
+  {
+    name: 'Business',
+    price: '₹14,999',
+    desc: 'A stronger digital presence for businesses ready to grow.',
+    popular: true,
+    features: [
+      '8–10 page website',
+      'Product/service catalogue',
+      'WhatsApp integration',
+      'Google Business support',
+      'Analytics setup',
+    ],
+  },
+  {
+    name: 'Growth',
+    price: '₹9,999/mo',
+    desc: 'Ongoing digital support focused on consistency and enquiries.',
+    features: [
+      'Website maintenance',
+      'Google Business management',
+      'Social media support',
+      'Content updates',
+      'Monthly report',
+    ],
+  },
 ];
 
-export default function Home(){
-  const [open,setOpen]=useState(false); const [sent,setSent]=useState(false);
-  function submitLead(e:React.FormEvent<HTMLFormElement>){e.preventDefault();const d=new FormData(e.currentTarget);const message=`Hello RakVexa, I want a free digital audit.\n\nName: ${d.get('name')}\nBusiness: ${d.get('business')}\nPhone / WhatsApp: ${d.get('phone')}\nService: ${d.get('service')}\nWhat I need: ${d.get('message')||'Not specified'}`;const number=process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g,'');if(!number){setSent(true);return}window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');setSent(true);e.currentTarget.reset()}
-  const nav=['Services','Industries','Portfolio','Pricing','Process','About'];
-  return <main className="overflow-hidden bg-white">
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-        <a href="#home" className="flex items-center gap-2 text-2xl font-black tracking-tight"><span className="brand-mark">R</span>Rak<span className="gradient-text">Vexa</span></a>
-        <nav className="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">{nav.map(x=><a key={x} href={`#${x.toLowerCase()}`} className="transition hover:text-violet-600">{x}</a>)}<a href="#contact" className="rounded-full bg-slate-950 px-5 py-2.5 text-white shadow-lg shadow-slate-950/10 transition hover:-translate-y-0.5">Get Free Audit</a></nav>
-        <button aria-label="Toggle menu" className="rounded-xl border p-2 md:hidden" onClick={()=>setOpen(!open)}>{open?<X size={20}/>:<Menu size={20}/>}</button>
-      </div>
-      {open&&<nav className="border-t bg-white px-5 py-5 md:hidden"><div className="flex flex-col gap-4 font-semibold">{[...nav,'Contact'].map(x=><a onClick={()=>setOpen(false)} key={x} href={`#${x.toLowerCase()}`}>{x}</a>)}</div></nav>}
-    </header>
-
-    <section id="home" className="hero-grid relative pt-32"><div className="hero-orb orb-one"/><div className="hero-orb orb-two"/>
-      <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 md:grid-cols-[1.05fr_.95fr] md:py-28">
-        <div className="relative z-10"><div className="eyebrow"><span className="pulse-dot"/> Digital Growth & Software Solutions</div>
-          <h1 className="mt-7 max-w-4xl text-5xl font-black leading-[1.02] tracking-[-0.045em] text-slate-950 md:text-7xl">Build a digital presence that <span className="gradient-text">brings business.</span></h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">Websites, Google, WhatsApp, catalogues, leads and business software — connected into one practical growth system.</p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#contact" className="group inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-7 py-4 font-bold text-white shadow-xl transition hover:-translate-y-1">Get Free Digital Audit <ArrowRight size={18} className="transition group-hover:translate-x-1"/></a><a href="#portfolio" className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white/80 px-7 py-4 font-bold text-slate-900 transition hover:-translate-y-1">See Demo Work</a></div>
-          <div className="mt-10 flex flex-wrap gap-3 text-sm font-semibold text-slate-500"><span className="pill">Ludhiana, Punjab</span><span className="pill">Local-first</span><span className="pill">Clear pricing</span></div>
+export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [sent, setSent] = useState(false);
+  function submitLead(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const d = new FormData(e.currentTarget);
+    const message = `Hello RakVexa, I want a free digital audit.\n\nName: ${d.get('name')}\nBusiness: ${d.get('business')}\nPhone / WhatsApp: ${d.get('phone')}\nService: ${d.get('service')}\nWhat I need: ${d.get('message') || 'Not specified'}`;
+    const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, '');
+    if (!number) {
+      setSent(true);
+      return;
+    }
+    window.open(
+      `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
+    setSent(true);
+    e.currentTarget.reset();
+  }
+  const nav = ['Services', 'Industries', 'Portfolio', 'Pricing', 'Process', 'About'];
+  return (
+    <main className="overflow-hidden bg-white">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <a
+            href="#home"
+            className="flex items-center gap-2 text-2xl font-black tracking-tight"
+          >
+            <span className="brand-mark">R</span>Rak
+            <span className="gradient-text">Vexa</span>
+          </a>
+          <nav className="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">
+            {nav.map((x) => (
+              <a
+                key={x}
+                href={`#${x.toLowerCase()}`}
+                className="transition hover:text-violet-600"
+              >
+                {x}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              className="rounded-full bg-slate-950 px-5 py-2.5 text-white shadow-lg shadow-slate-950/10 transition hover:-translate-y-0.5"
+            >
+              Get Free Audit
+            </a>
+          </nav>
+          <button
+            aria-label="Toggle menu"
+            className="rounded-xl border p-2 md:hidden"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
-        <div className="relative z-10"><div className="dashboard-card rounded-[2rem] border border-white/70 bg-white/85 p-4 shadow-2xl shadow-violet-900/15 backdrop-blur-xl"><div className="rounded-[1.5rem] bg-slate-950 p-5 text-white">
-          <div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">RakVexa Growth System</p><h3 className="mt-2 text-xl font-black">From discovery to enquiry</h3></div><div className="rounded-xl bg-white/10 p-2"><BarChart3 size={20}/></div></div>
-          <div className="mt-6 grid grid-cols-2 gap-3"><Metric label="Website" value="Ready"/><Metric label="Google" value="Visible"/><Metric label="WhatsApp" value="Connected"/><Metric label="Leads" value="Trackable"/></div>
-          <div className="mt-4 rounded-2xl bg-white/5 p-4"><div className="flex items-center justify-between text-sm"><span className="text-slate-400">Digital foundation</span><span className="font-bold">4 / 4</span></div><div className="mt-3 grid grid-cols-4 gap-1.5">{[1,2,3,4].map(i=><div key={i} className="h-2 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-400"/>)}</div></div>
-        </div><div className="grid grid-cols-3 gap-3 p-2 pt-4 text-center text-xs font-bold text-slate-500"><div><Globe2 className="mx-auto mb-2 text-violet-600" size={18}/>Website</div><div><MapPin className="mx-auto mb-2 text-violet-600" size={18}/>Google</div><div><MessageCircle className="mx-auto mb-2 text-violet-600" size={18}/>WhatsApp</div></div></div></div>
-      </div>
-    </section>
+        {open && (
+          <nav className="border-t bg-white px-5 py-5 md:hidden">
+            <div className="flex flex-col gap-4 font-semibold">
+              {[...nav, 'Contact'].map((x) => (
+                <a onClick={() => setOpen(false)} key={x} href={`#${x.toLowerCase()}`}>
+                  {x}
+                </a>
+              ))}
+            </div>
+          </nav>
+        )}
+      </header>
 
-    <section className="border-y bg-slate-950 text-white"><div className="mx-auto grid max-w-7xl md:grid-cols-3 px-5"><Trust title="One digital partner" text="From your first website to custom business software."/><Trust title="Built for real businesses" text="Practical systems, not complicated technology for its own sake."/><Trust title="Outcome-focused" text="Clear scope, measurable actions and support after launch."/></div></section>
+      <section id="home" className="hero-grid relative pt-32">
+        <div className="hero-orb orb-one" />
+        <div className="hero-orb orb-two" />
+        <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 md:grid-cols-[1.05fr_.95fr] md:py-28">
+          <div className="relative z-10">
+            <div className="eyebrow">
+              <span className="pulse-dot" /> Digital Growth & Software Solutions
+            </div>
+            <h1 className="mt-7 max-w-4xl text-5xl font-black leading-[1.02] tracking-[-0.045em] text-slate-950 md:text-7xl">
+              Build a digital presence that{' '}
+              <span className="gradient-text">brings business.</span>
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">
+              Websites, Google, WhatsApp, catalogues, leads and business software —
+              connected into one practical growth system.
+            </p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="#contact"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-7 py-4 font-bold text-white shadow-xl transition hover:-translate-y-1"
+              >
+                Get Free Digital Audit{' '}
+                <ArrowRight size={18} className="transition group-hover:translate-x-1" />
+              </a>
+              <a
+                href="#portfolio"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white/80 px-7 py-4 font-bold text-slate-900 transition hover:-translate-y-1"
+              >
+                See Demo Work
+              </a>
+            </div>
+            <div className="mt-10 flex flex-wrap gap-3 text-sm font-semibold text-slate-500">
+              <span className="pill">Ludhiana, Punjab</span>
+              <span className="pill">Local-first</span>
+              <span className="pill">Clear pricing</span>
+            </div>
+          </div>
+          <div className="relative z-10">
+            <div className="dashboard-card rounded-[2rem] border border-white/70 bg-white/85 p-4 shadow-2xl shadow-violet-900/15 backdrop-blur-xl">
+              <div className="rounded-[1.5rem] bg-slate-950 p-5 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">
+                      RakVexa Growth System
+                    </p>
+                    <h3 className="mt-2 text-xl font-black">From discovery to enquiry</h3>
+                  </div>
+                  <div className="rounded-xl bg-white/10 p-2">
+                    <BarChart3 size={20} />
+                  </div>
+                </div>
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <Metric label="Website" value="Ready" />
+                  <Metric label="Google" value="Visible" />
+                  <Metric label="WhatsApp" value="Connected" />
+                  <Metric label="Leads" value="Trackable" />
+                </div>
+                <div className="mt-4 rounded-2xl bg-white/5 p-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-400">Digital foundation</span>
+                    <span className="font-bold">4 / 4</span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-4 gap-1.5">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div
+                        key={i}
+                        className="h-2 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-400"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3 p-2 pt-4 text-center text-xs font-bold text-slate-500">
+                <div>
+                  <Globe2 className="mx-auto mb-2 text-violet-600" size={18} />
+                  Website
+                </div>
+                <div>
+                  <MapPin className="mx-auto mb-2 text-violet-600" size={18} />
+                  Google
+                </div>
+                <div>
+                  <MessageCircle className="mx-auto mb-2 text-violet-600" size={18} />
+                  WhatsApp
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section id="services" className="mx-auto max-w-7xl px-5 py-24 md:py-28"><SectionHead kicker="WHAT WE DO" title="Everything you need to grow online." text="Start with one service or combine them into a complete digital growth system."/><div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">{services.map(([title,desc,Icon],i)=><div key={title} className="service-card group rounded-3xl border border-slate-200 bg-white p-7"><div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-600 transition group-hover:scale-110 group-hover:bg-violet-600 group-hover:text-white"><Icon size={22}/></div><p className="mt-5 text-xs font-black text-slate-400">0{i+1}</p><h3 className="mt-1 text-xl font-black">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-500">{desc}</p><a href="#contact" className="mt-6 inline-flex items-center gap-1 text-sm font-black">Discuss this <ChevronRight size={16}/></a></div>)}</div></section>
+      <section className="border-y bg-slate-950 text-white">
+        <div className="mx-auto grid max-w-7xl md:grid-cols-3 px-5">
+          <Trust
+            title="One digital partner"
+            text="From your first website to custom business software."
+          />
+          <Trust
+            title="Built for real businesses"
+            text="Practical systems, not complicated technology for its own sake."
+          />
+          <Trust
+            title="Outcome-focused"
+            text="Clear scope, measurable actions and support after launch."
+          />
+        </div>
+      </section>
 
-    <section id="industries" className="bg-slate-50 py-24 md:py-28"><div className="mx-auto max-w-7xl px-5"><SectionHead kicker="INDUSTRIES" title="Built around the way businesses actually sell." text="We create different digital journeys for different buying behaviours — retail, B2B, local discovery and lead generation."/><div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{industries.map(([name,Icon,url])=><a key={name} href={url?`https://${url}`:'#contact'} target={url?'_blank':undefined} rel={url?'noreferrer':undefined} className="industry-card rounded-3xl border border-slate-200 bg-white p-6"><div className="flex items-center justify-between"><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white"><Icon size={20}/></div>{url&&<span className="text-xs font-bold text-violet-600">View demo ↗</span>}</div><h3 className="mt-6 font-black">{name}</h3><p className="mt-2 text-sm leading-6 text-slate-500">A tailored digital experience for your customers.</p></a>)}</div></div></section>
+      <section id="services" className="mx-auto max-w-7xl px-5 py-24 md:py-28">
+        <SectionHead
+          kicker="WHAT WE DO"
+          title="Everything you need to grow online."
+          text="Start with one service or combine them into a complete digital growth system."
+        />
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {services.map(([title, desc, Icon], i) => (
+            <div
+              key={title}
+              className="service-card group rounded-3xl border border-slate-200 bg-white p-7"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-600 transition group-hover:scale-110 group-hover:bg-violet-600 group-hover:text-white">
+                <Icon size={22} />
+              </div>
+              <p className="mt-5 text-xs font-black text-slate-400">0{i + 1}</p>
+              <h3 className="mt-1 text-xl font-black">{title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-500">{desc}</p>
+              <a
+                href="#contact"
+                className="mt-6 inline-flex items-center gap-1 text-sm font-black"
+              >
+                Discuss this <ChevronRight size={16} />
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
 
-    <section id="portfolio" className="mx-auto max-w-7xl px-5 py-24 md:py-28"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><SectionHead kicker="DEMO PORTFOLIO" title="See how we approach different businesses." text="These are RakVexa demo concepts — built to demonstrate strategy, UI and conversion flows."/><a href="/portfolio" className="font-black text-violet-600">View portfolio <ArrowRight className="ml-1 inline" size={17}/></a></div><div className="mt-12 grid gap-6 lg:grid-cols-3">{projects.map((p)=><a href={p.url} target="_blank" rel="noreferrer" key={p.title} className="group overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl"><div className={`project-visual ${p.accent} relative h-64 p-6 text-white`}><div className="absolute inset-x-6 bottom-6 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur"><div className="flex items-center justify-between text-xs font-bold"><span>{p.type}</span><span>DEMO</span></div><div className="mt-3 h-2 w-2/3 rounded-full bg-white/30"/><div className="mt-2 h-2 w-1/2 rounded-full bg-white/20"/></div></div><div className="p-7"><div className="flex items-center justify-between"><h3 className="text-2xl font-black">{p.title}</h3><ArrowRight size={20} className="transition group-hover:translate-x-1"/></div><p className="mt-3 text-sm leading-6 text-slate-500">{p.text}</p><span className="mt-5 inline-block text-xs font-bold text-slate-400">{p.url.replace('https://','')}</span></div></a>)}</div></section>
+      <section id="industries" className="bg-slate-50 py-24 md:py-28">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionHead
+            kicker="INDUSTRIES"
+            title="Built around the way businesses actually sell."
+            text="We create different digital journeys for different buying behaviours — retail, B2B, local discovery and lead generation."
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {industries.map(([name, Icon, url]) => (
+              <a
+                key={name}
+                href={url ? `https://${url}` : '#contact'}
+                target={url ? '_blank' : undefined}
+                rel={url ? 'noreferrer' : undefined}
+                className="industry-card rounded-3xl border border-slate-200 bg-white p-6"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white">
+                    <Icon size={20} />
+                  </div>
+                  {url && (
+                    <span className="text-xs font-bold text-violet-600">View demo ↗</span>
+                  )}
+                </div>
+                <h3 className="mt-6 font-black">{name}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  A tailored digital experience for your customers.
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
 
-    <section id="pricing" className="bg-slate-950 py-24 text-white md:py-28"><div className="mx-auto max-w-7xl px-5"><SectionHead dark kicker="PRICING" title="Simple packages. Clear scope." text="Start small, then add services as your business grows."/><div className="mt-12 grid gap-6 lg:grid-cols-3">{plans.map(p=><div key={p.name} className={`relative rounded-[2rem] p-8 ${p.popular?'bg-white text-slate-950 ring-2 ring-violet-500 shadow-2xl':'border border-slate-800 bg-slate-900'}`}>{p.popular&&<div className="absolute right-6 top-6 rounded-full bg-violet-600 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">Most popular</div>}<h3 className="text-xl font-black">{p.name}</h3><div className="mt-5 text-4xl font-black tracking-tight">{p.price}</div><p className={`mt-3 min-h-12 text-sm leading-6 ${p.popular?'text-slate-500':'text-slate-400'}`}>{p.desc}</p><ul className="mt-7 space-y-3">{p.features.map(x=><li key={x} className="flex gap-2 text-sm"><Check size={18} className="shrink-0 text-violet-500"/>{x}</li>)}</ul><a href="#contact" className={`mt-8 block rounded-full px-5 py-3 text-center font-bold transition hover:-translate-y-0.5 ${p.popular?'bg-slate-950 text-white':'bg-white text-slate-950'}`}>Get Started</a></div>)}</div><p className="mt-7 text-sm text-slate-500">* Ad spend, premium tools, hosting and custom software are quoted separately.</p></div></section>
+      <section id="portfolio" className="mx-auto max-w-7xl px-5 py-24 md:py-28">
+        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <SectionHead
+            kicker="DEMO PORTFOLIO"
+            title="See how we approach different businesses."
+            text="These are RakVexa demo concepts — built to demonstrate strategy, UI and conversion flows."
+          />
+          <a href="/portfolio" className="font-black text-violet-600">
+            View portfolio <ArrowRight className="ml-1 inline" size={17} />
+          </a>
+        </div>
+        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          {projects.map((p) => (
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noreferrer"
+              key={p.title}
+              className="group overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl"
+            >
+              <div className={`project-visual ${p.accent} relative h-64 p-6 text-white`}>
+                <div className="absolute inset-x-6 bottom-6 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
+                  <div className="flex items-center justify-between text-xs font-bold">
+                    <span>{p.type}</span>
+                    <span>DEMO</span>
+                  </div>
+                  <div className="mt-3 h-2 w-2/3 rounded-full bg-white/30" />
+                  <div className="mt-2 h-2 w-1/2 rounded-full bg-white/20" />
+                </div>
+              </div>
+              <div className="p-7">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-black">{p.title}</h3>
+                  <ArrowRight
+                    size={20}
+                    className="transition group-hover:translate-x-1"
+                  />
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-500">{p.text}</p>
+                <span className="mt-5 inline-block text-xs font-bold text-slate-400">
+                  {p.url.replace('https://', '')}
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
 
-    <section id="process" className="border-y border-slate-200 bg-white py-24 md:py-28"><div className="mx-auto max-w-7xl px-5"><SectionHead kicker="HOW IT WORKS" title="A simple path from idea to launch." text="No confusing handoffs. We keep the scope clear and move in practical stages."/><div className="mt-12 grid gap-5 md:grid-cols-4">{[['01','Audit','We understand your business, audience and current digital presence.'],['02','Plan','We recommend the right pages, tools and conversion journey.'],['03','Build','Design, development, integrations and testing happen in focused sprints.'],['04','Grow','Launch, measure, improve and support the system as your business evolves.']].map(([n,t,d])=><div key={n} className="rounded-3xl border border-slate-200 bg-slate-50 p-7"><span className="text-sm font-black text-violet-600">{n}</span><h3 className="mt-5 text-xl font-black">{t}</h3><p className="mt-3 text-sm leading-6 text-slate-500">{d}</p></div>)}</div></div></section>
+      <section id="pricing" className="bg-slate-950 py-24 text-white md:py-28">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionHead
+            dark
+            kicker="PRICING"
+            title="Simple packages. Clear scope."
+            text="Start small, then add services as your business grows."
+          />
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {plans.map((p) => (
+              <div
+                key={p.name}
+                className={`relative rounded-[2rem] p-8 ${p.popular ? 'bg-white text-slate-950 ring-2 ring-violet-500 shadow-2xl' : 'border border-slate-800 bg-slate-900'}`}
+              >
+                {p.popular && (
+                  <div className="absolute right-6 top-6 rounded-full bg-violet-600 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">
+                    Most popular
+                  </div>
+                )}
+                <h3 className="text-xl font-black">{p.name}</h3>
+                <div className="mt-5 text-4xl font-black tracking-tight">{p.price}</div>
+                <p
+                  className={`mt-3 min-h-12 text-sm leading-6 ${p.popular ? 'text-slate-500' : 'text-slate-400'}`}
+                >
+                  {p.desc}
+                </p>
+                <ul className="mt-7 space-y-3">
+                  {p.features.map((x) => (
+                    <li key={x} className="flex gap-2 text-sm">
+                      <Check size={18} className="shrink-0 text-violet-500" />
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="#contact"
+                  className={`mt-8 block rounded-full px-5 py-3 text-center font-bold transition hover:-translate-y-0.5 ${p.popular ? 'bg-slate-950 text-white' : 'bg-white text-slate-950'}`}
+                >
+                  Get Started
+                </a>
+              </div>
+            ))}
+          </div>
+          <p className="mt-7 text-sm text-slate-500">
+            * Ad spend, premium tools, hosting and custom software are quoted separately.
+          </p>
+        </div>
+      </section>
 
-    <section id="about" className="mx-auto max-w-7xl px-5 py-24 md:py-28"><div className="grid gap-12 md:grid-cols-[.9fr_1.1fr] md:items-center"><SectionHead kicker="WHY RAKVEXA" title="Technology that makes business simpler." text="The goal is not more tools. It is a better path from discovery to enquiry to customer — with technology that your team can actually use."/><div className="grid gap-4 sm:grid-cols-2"><Feature icon={<Zap/>} title="Fast execution" text="Focused scope, clear milestones and practical delivery."/><Feature icon={<Search/>} title="Local visibility" text="Digital foundations designed around how customers search."/><Feature icon={<LayoutTemplate/>} title="One partner" text="Website, Google, WhatsApp, leads and software together."/><Feature icon={<ShieldCheck/>} title="Long-term support" text="Support after launch instead of disappearing after delivery."/></div></div></section>
+      <section id="process" className="border-y border-slate-200 bg-white py-24 md:py-28">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionHead
+            kicker="HOW IT WORKS"
+            title="A simple path from idea to launch."
+            text="No confusing handoffs. We keep the scope clear and move in practical stages."
+          />
+          <div className="mt-12 grid gap-5 md:grid-cols-4">
+            {[
+              [
+                '01',
+                'Audit',
+                'We understand your business, audience and current digital presence.',
+              ],
+              [
+                '02',
+                'Plan',
+                'We recommend the right pages, tools and conversion journey.',
+              ],
+              [
+                '03',
+                'Build',
+                'Design, development, integrations and testing happen in focused sprints.',
+              ],
+              [
+                '04',
+                'Grow',
+                'Launch, measure, improve and support the system as your business evolves.',
+              ],
+            ].map(([n, t, d]) => (
+              <div
+                key={n}
+                className="rounded-3xl border border-slate-200 bg-slate-50 p-7"
+              >
+                <span className="text-sm font-black text-violet-600">{n}</span>
+                <h3 className="mt-5 text-xl font-black">{t}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-500">{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-    <section id="faq" className="bg-slate-50 py-24 md:py-28"><div className="mx-auto max-w-4xl px-5"><SectionHead kicker="FAQ" title="Questions businesses usually ask."/><div className="mt-10 space-y-4">{[['Do you work with businesses outside Ludhiana?','Yes. We start local, but websites, catalogues, software and digital support can be delivered across Punjab and India.'],['Can I start with only a website?','Absolutely. You can start with a website and add Google, WhatsApp, catalogue, leads or software later.'],['Do you provide support after launch?','Yes. Maintenance and ongoing growth support are available as monthly services.'],['Are the portfolio websites real client projects?','The initial portfolio contains clearly labelled RakVexa demo concepts created to demonstrate our approach.']].map(([q,a])=><details key={q} className="group rounded-2xl border border-slate-200 bg-white p-6"><summary className="cursor-pointer list-none font-black text-slate-950">{q}<span className="float-right text-violet-600">+</span></summary><p className="mt-4 max-w-3xl text-sm leading-7 text-slate-500">{a}</p></details>)}</div></div></section>
+      <section id="about" className="mx-auto max-w-7xl px-5 py-24 md:py-28">
+        <div className="grid gap-12 md:grid-cols-[.9fr_1.1fr] md:items-center">
+          <SectionHead
+            kicker="WHY RAKVEXA"
+            title="Technology that makes business simpler."
+            text="The goal is not more tools. It is a better path from discovery to enquiry to customer — with technology that your team can actually use."
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Feature
+              icon={<Zap />}
+              title="Fast execution"
+              text="Focused scope, clear milestones and practical delivery."
+            />
+            <Feature
+              icon={<Search />}
+              title="Local visibility"
+              text="Digital foundations designed around how customers search."
+            />
+            <Feature
+              icon={<LayoutTemplate />}
+              title="One partner"
+              text="Website, Google, WhatsApp, leads and software together."
+            />
+            <Feature
+              icon={<ShieldCheck />}
+              title="Long-term support"
+              text="Support after launch instead of disappearing after delivery."
+            />
+          </div>
+        </div>
+      </section>
 
-    <section id="contact" className="relative bg-gradient-to-br from-violet-700 via-violet-600 to-indigo-700 py-24 text-white md:py-28"><div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-[.85fr_1.15fr] md:items-center"><div><p className="font-black text-violet-200">FREE DIGITAL AUDIT</p><h2 className="mt-3 text-4xl font-black tracking-tight md:text-6xl">Let's find your next growth opportunity.</h2><p className="mt-6 max-w-xl text-lg leading-8 text-violet-100">Tell us what you do and what you want to improve. We'll turn that into a practical starting plan.</p><div className="mt-8 space-y-3 text-sm font-semibold text-violet-100"><div className="flex items-center gap-3"><MapPin size={18}/> Ludhiana, Punjab, India</div><div className="flex items-center gap-3"><MessageCircle size={18}/> WhatsApp consultation available</div></div></div><form onSubmit={submitLead} className="rounded-[2rem] bg-white p-6 text-slate-950 shadow-2xl md:p-8"><div className="grid gap-4 sm:grid-cols-2"><Input name="name" label="Your name" required/><Input name="business" label="Business name" required/><Input name="phone" label="Phone / WhatsApp" required/><label className="text-sm font-bold">What do you need?<select name="service" className="field" defaultValue="Website Development"><option>Website Development</option><option>Google Business</option><option>WhatsApp Business</option><option>Social Media</option><option>Online Catalogue</option><option>Lead Generation</option><option>Business Software</option><option>Not sure yet</option></select></label></div><label className="mt-4 block text-sm font-bold">Tell us about your business<textarea name="message" rows={4} className="field resize-none" placeholder="What do you sell? What would you like to improve?"/></label><button type="submit" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-violet-950">Send on WhatsApp <MessageCircle size={18}/></button>{sent&&<p className="mt-3 text-center text-xs font-semibold text-slate-500">Your enquiry is ready for WhatsApp. Add <code className="rounded bg-slate-100 px-1">NEXT_PUBLIC_WHATSAPP_NUMBER</code> to enable the direct chat.</p>}<p className="mt-3 text-center text-xs text-slate-400">We’ll use your details only to understand your requirement and prepare the audit.</p></form></div></section>
+      <section id="faq" className="bg-slate-50 py-24 md:py-28">
+        <div className="mx-auto max-w-4xl px-5">
+          <SectionHead kicker="FAQ" title="Questions businesses usually ask." />
+          <div className="mt-10 space-y-4">
+            {[
+              [
+                'Do you work with businesses outside Ludhiana?',
+                'Yes. We start local, but websites, catalogues, software and digital support can be delivered across Punjab and India.',
+              ],
+              [
+                'Can I start with only a website?',
+                'Absolutely. You can start with a website and add Google, WhatsApp, catalogue, leads or software later.',
+              ],
+              [
+                'Do you provide support after launch?',
+                'Yes. Maintenance and ongoing growth support are available as monthly services.',
+              ],
+              [
+                'Are the portfolio websites real client projects?',
+                'The initial portfolio contains clearly labelled RakVexa demo concepts created to demonstrate our approach.',
+              ],
+            ].map(([q, a]) => (
+              <details
+                key={q}
+                className="group rounded-2xl border border-slate-200 bg-white p-6"
+              >
+                <summary className="cursor-pointer list-none font-black text-slate-950">
+                  {q}
+                  <span className="float-right text-violet-600">+</span>
+                </summary>
+                <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-500">{a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
-    <footer className="bg-slate-950 text-white"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-[1.6fr_1fr_1fr_1fr]"><div><div className="flex items-center gap-2 text-2xl font-black"><span className="brand-mark">R</span>Rak<span className="gradient-text">Vexa</span></div><p className="mt-4 max-w-md text-sm leading-6 text-slate-400">Digital Growth & Software Solutions. Helping businesses build stronger digital foundations and better customer journeys.</p></div><FooterCol title="Services" links={['Website Development','Google Business','WhatsApp Business','Lead Generation','Business Software']}/><FooterCol title="Company" links={['About','Portfolio','Pricing','Contact']}/><div><h3 className="font-bold">Location</h3><p className="mt-4 text-sm leading-6 text-slate-400">Ludhiana, Punjab, India</p><a className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white" href="#contact"><MessageCircle size={16}/> WhatsApp consultation</a></div></div><div className="border-t border-slate-800 px-5 py-6 text-center text-xs text-slate-500">© 2026 RakVexa. All rights reserved.</div></footer>
-  </main>
+      <section
+        id="contact"
+        className="relative bg-gradient-to-br from-violet-700 via-violet-600 to-indigo-700 py-24 text-white md:py-28"
+      >
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-[.85fr_1.15fr] md:items-center">
+          <div>
+            <p className="font-black text-violet-200">FREE DIGITAL AUDIT</p>
+            <h2 className="mt-3 text-4xl font-black tracking-tight md:text-6xl">
+              Let's find your next growth opportunity.
+            </h2>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-violet-100">
+              Tell us what you do and what you want to improve. We'll turn that into a
+              practical starting plan.
+            </p>
+            <div className="mt-8 space-y-3 text-sm font-semibold text-violet-100">
+              <div className="flex items-center gap-3">
+                <MapPin size={18} /> Ludhiana, Punjab, India
+              </div>
+              <div className="flex items-center gap-3">
+                <MessageCircle size={18} /> WhatsApp consultation available
+              </div>
+            </div>
+          </div>
+          <form
+            onSubmit={submitLead}
+            className="rounded-[2rem] bg-white p-6 text-slate-950 shadow-2xl md:p-8"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input name="name" label="Your name" required />
+              <Input name="business" label="Business name" required />
+              <Input name="phone" label="Phone / WhatsApp" required />
+              <label className="text-sm font-bold">
+                What do you need?
+                <select
+                  name="service"
+                  className="field"
+                  defaultValue="Website Development"
+                >
+                  <option>Website Development</option>
+                  <option>Google Business</option>
+                  <option>WhatsApp Business</option>
+                  <option>Social Media</option>
+                  <option>Online Catalogue</option>
+                  <option>Lead Generation</option>
+                  <option>Business Software</option>
+                  <option>Not sure yet</option>
+                </select>
+              </label>
+            </div>
+            <label className="mt-4 block text-sm font-bold">
+              Tell us about your business
+              <textarea
+                name="message"
+                rows={4}
+                className="field resize-none"
+                placeholder="What do you sell? What would you like to improve?"
+              />
+            </label>
+            <button
+              type="submit"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-violet-950"
+            >
+              Send on WhatsApp <MessageCircle size={18} />
+            </button>
+            {sent && (
+              <p className="mt-3 text-center text-xs font-semibold text-slate-500">
+                Your enquiry is ready for WhatsApp. Add{' '}
+                <code className="rounded bg-slate-100 px-1">
+                  NEXT_PUBLIC_WHATSAPP_NUMBER
+                </code>{' '}
+                to enable the direct chat.
+              </p>
+            )}
+            <p className="mt-3 text-center text-xs text-slate-400">
+              We’ll use your details only to understand your requirement and prepare the
+              audit.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-white">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+          <div>
+            <div className="flex items-center gap-2 text-2xl font-black">
+              <span className="brand-mark">R</span>Rak
+              <span className="gradient-text">Vexa</span>
+            </div>
+            <p className="mt-4 max-w-md text-sm leading-6 text-slate-400">
+              Digital Growth & Software Solutions. Helping businesses build stronger
+              digital foundations and better customer journeys.
+            </p>
+          </div>
+          <FooterCol
+            title="Services"
+            links={[
+              'Website Development',
+              'Google Business',
+              'WhatsApp Business',
+              'Lead Generation',
+              'Business Software',
+            ]}
+          />
+          <FooterCol
+            title="Company"
+            links={['About', 'Portfolio', 'Pricing', 'Contact']}
+          />
+          <div>
+            <h3 className="font-bold">Location</h3>
+            <p className="mt-4 text-sm leading-6 text-slate-400">
+              Ludhiana, Punjab, India
+            </p>
+            <a
+              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white"
+              href="#contact"
+            >
+              <MessageCircle size={16} /> WhatsApp consultation
+            </a>
+          </div>
+        </div>
+        <div className="border-t border-slate-800 px-5 py-6 text-center text-xs text-slate-500">
+          © 2026 RakVexa. All rights reserved.
+        </div>
+      </footer>
+    </main>
+  );
 }
 
-function Metric({label,value}:{label:string,value:string}){return <div className="rounded-2xl bg-white/5 p-4"><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</p><p className="mt-2 text-lg font-black">{value}</p></div>}
-function Trust({title,text}:{title:string,text:string}){return <div className="border-b border-slate-800 px-1 py-8 md:border-b-0 md:border-r md:px-8 md:py-10 last:border-0"><h3 className="font-black">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p></div>}
-function SectionHead({kicker,title,text,dark=false}:{kicker:string,title:string,text?:string,dark?:boolean}){return <div className="max-w-3xl"><p className={`font-black ${dark?'text-violet-300':'text-violet-600'}`}>{kicker}</p><h2 className={`mt-3 text-4xl font-black tracking-tight md:text-5xl ${dark?'text-white':'text-slate-950'}`}>{title}</h2>{text&&<p className={`mt-5 max-w-2xl text-lg leading-8 ${dark?'text-slate-400':'text-slate-600'}`}>{text}</p>}</div>}
-function Feature({icon,title,text}:{icon:React.ReactNode,title:string,text:string}){return <div className="rounded-3xl border border-slate-200 p-6"><div className="text-violet-600">{icon}</div><h3 className="mt-5 font-black">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{text}</p></div>}
-function Input({name,label,required=false}:{name:string,label:string,required?:boolean}){return <label className="text-sm font-bold">{label}<input name={name} required={required} className="field"/></label>}
-function FooterCol({title,links}:{title:string,links:string[]}){return <div><h3 className="font-bold">{title}</h3><div className="mt-4 space-y-2 text-sm text-slate-400">{links.map(x=><a key={x} href={x==='Contact'?'#contact':'#'} className="block hover:text-white">{x}</a>)}</div></div>}
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl bg-white/5 p-4">
+      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+        {label}
+      </p>
+      <p className="mt-2 text-lg font-black">{value}</p>
+    </div>
+  );
+}
+function Trust({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="border-b border-slate-800 px-1 py-8 md:border-b-0 md:border-r md:px-8 md:py-10 last:border-0">
+      <h3 className="font-black">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-slate-400">{text}</p>
+    </div>
+  );
+}
+function SectionHead({
+  kicker,
+  title,
+  text,
+  dark = false,
+}: {
+  kicker: string;
+  title: string;
+  text?: string;
+  dark?: boolean;
+}) {
+  return (
+    <div className="max-w-3xl">
+      <p className={`font-black ${dark ? 'text-violet-300' : 'text-violet-600'}`}>
+        {kicker}
+      </p>
+      <h2
+        className={`mt-3 text-4xl font-black tracking-tight md:text-5xl ${dark ? 'text-white' : 'text-slate-950'}`}
+      >
+        {title}
+      </h2>
+      {text && (
+        <p
+          className={`mt-5 max-w-2xl text-lg leading-8 ${dark ? 'text-slate-400' : 'text-slate-600'}`}
+        >
+          {text}
+        </p>
+      )}
+    </div>
+  );
+}
+function Feature({
+  icon,
+  title,
+  text,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="rounded-3xl border border-slate-200 p-6">
+      <div className="text-violet-600">{icon}</div>
+      <h3 className="mt-5 font-black">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-slate-500">{text}</p>
+    </div>
+  );
+}
+function Input({
+  name,
+  label,
+  required = false,
+}: {
+  name: string;
+  label: string;
+  required?: boolean;
+}) {
+  return (
+    <label className="text-sm font-bold">
+      {label}
+      <input name={name} required={required} className="field" />
+    </label>
+  );
+}
+function FooterCol({ title, links }: { title: string; links: string[] }) {
+  return (
+    <div>
+      <h3 className="font-bold">{title}</h3>
+      <div className="mt-4 space-y-2 text-sm text-slate-400">
+        {links.map((x) => (
+          <a
+            key={x}
+            href={x === 'Contact' ? '#contact' : '#'}
+            className="block hover:text-white"
+          >
+            {x}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}

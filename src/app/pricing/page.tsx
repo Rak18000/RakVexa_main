@@ -55,7 +55,8 @@ export default function Pricing() {
           Simple packages. <span className="gradient-text">Clear scope.</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-          Custom software and larger projects are quoted after understanding your requirements.
+          Custom software and larger projects are quoted after understanding your
+          requirements.
         </p>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {plans.map((plan, i) => (
@@ -86,7 +87,8 @@ export default function Pricing() {
           ))}
         </div>
         <p className="mt-8 text-sm text-slate-500">
-          * Advertising spend, domain/hosting and third-party software fees are separate unless included in a written proposal.
+          * Advertising spend, domain/hosting and third-party software fees are separate
+          unless included in a written proposal.
         </p>
       </section>
     </PageShell>
